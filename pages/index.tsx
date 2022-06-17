@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className='container mx-auto my-10'>
-        <h1 className='text-2xl  '>Calculadora de Grasa <br />Corporal</h1>
+        <h1 className='text-2xl  capitalize '>Calculadora de Grasa <br />Corporal</h1>
         <p>El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera <br />
           sencilla de calcular un aproximado del porcentaje de tejido adiposo en el cuerpo de <br />
           una persona.</p>
