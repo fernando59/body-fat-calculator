@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -16,10 +17,33 @@ a {
   text-decoration: none;
 
 }
-input{
-  color: #000;
+
+input {
+  color: #fff;
+  border-radius: 9999px;
+  padding: 5px;
+  background: #000;
+  border: 1px solid #ccc;
+  margin: 10px 0px;
+  padding-left: 15px;
 }
 
 * {
   box-sizing: border-box;
+}
+
+
+input[type=range] {
+  height: 72px;
+  border-radius: 10px;
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+  margin-top: 20px;
+  background: rgb(0,159,227);
+  background: linear-gradient(90deg, rgba(0,159,227,1) 4%, rgba(0,156,61,1) 22%, rgba(152,194,29,1) 38%, rgba(247,183,8,1) 67%, rgba(215,99,40,1) 96%);
+}
+
+input[type=range]:focus {
+  outline: none;
 }

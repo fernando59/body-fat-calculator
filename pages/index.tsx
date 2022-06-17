@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { FormCalculator } from '../components/FormCalculator'
 import { Header } from '../components/Header'
+import { Range } from '../components/Range'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -14,18 +15,18 @@ const Home: NextPage = () => {
       </Head>
 
       <Header />
-      <main className='container mx-auto my-10 grid grid-cols-2'>
-        <div>
+      <main className='container mx-auto h-[92vh]  grid md:grid-cols-2  grid-cols-1'>
+        <div className='self-center h-[92vh]'>
 
-        <h1 className='text-3xl font-bold py-4  capitalize '>Calculadora de Grasa <br />Corporal</h1>
-        <p className='py-4'>El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera <br />
-          sencilla de calcular un aproximado del porcentaje de tejido adiposo en el cuerpo de <br />
-          una persona.</p>
-        <p className='py-4'>Los valores requeridos para la fórmula son los siguientes : </p>
-        <FormCalculator />
+          <h1 className='text-3xl font-bold pt-16  capitalize text tracking-wide '>Calculadora de Grasa <br />Corporal</h1>
+          <p className='py-4 text-[#ddd]'>El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera <br />
+            sencilla de calcular un aproximado del porcentaje de tejido adiposo en el cuerpo de <br />
+            una persona.</p>
+          <p className='py-4 text-[#ddd]'>Los valores requeridos para la fórmula son los siguientes : </p>
+          <FormCalculator />
         </div>
-        <div>
-        <input type="range" />
+        <div className='self-center'>
+          <Range/>
         </div>
 
       </main>
