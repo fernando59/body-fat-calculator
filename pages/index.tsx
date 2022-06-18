@@ -1,10 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
-import { Description } from '../components/Description'
 import { FormCalculator } from '../components/FormCalculator'
 import { Header } from '../components/Header'
 import { Range } from '../components/Range'
+import { TitleDescription } from '../components/TitleDescription'
 
 
 
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
       <Header />
       <main className='container px-5 mx-auto min-h-[92vh]  grid md:grid-cols-2  grid-cols-1'>
         <section className='self-center min-h-[92vh]'>
-          <Description />
+          <TitleDescription />
           <FormCalculator setResCalc={setResCalc} />
         </section>
         <section className='self-center'>

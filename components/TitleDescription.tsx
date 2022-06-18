@@ -1,5 +1,5 @@
 
-export const Description = () => {
+export const TitleDescription = () => {
   return <>
           <h1 className='text-3xl font-bold pt-16  capitalize text tracking-wide '>Calculadora de Grasa <br />Corporal</h1>
           <p className='py-4 text-[#ddd]'>El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera <br />

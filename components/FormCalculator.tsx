@@ -22,6 +22,18 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
         }
     });
     const gender = watch("gender");
+    const generateToast = () => {
+        toast.error('Los valores generan un resultado incorrecto', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'dark'
+        });
+    }
 
 
     const onHandleSubmit = (data: IBFPForm) => {
@@ -37,38 +49,15 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
             weigth: parseFloat(weigth),
 
         }
-        if (gender === 'f') {
+        if (gender === 'f')
             res = calculateFormFemale(dataCalcultator)
-            if (res < 0) {
-                toast.error('Los valores generan un resultado incorrecto', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme:'dark'
-                });
-            }
-            setResCalc(res)
-        }
-        else {
+        else
             res = calculateForMale(dataCalcultator)
-            if (res < 0) {
-                toast.error('Los valores generan un resultado incorrecto', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme:'dark'
-                });
-            }
-            setResCalc(res)
+
+        if (res < 0) {
+            generateToast()
         }
+        setResCalc(res)
     }
 
 
