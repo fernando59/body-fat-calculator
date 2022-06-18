@@ -1,7 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 
 interface Props {
-
   resCalc: number
 }
 
@@ -17,12 +16,10 @@ export const Range: FC<Props> = ({ resCalc }) => {
   };
   useEffect(() => {
     let res: number = parseFloat(resCalc.toFixed(2))
-    console.log(res)
     if (res < 0) {
       setRange(0)
     } else if (res > 25) {
       setRange(25)
-
     }
     else {
       setRange(res)
@@ -59,7 +56,7 @@ export const Range: FC<Props> = ({ resCalc }) => {
         ref={ref} type="range" min={0} max={25} value={range} />
     </div>
 
-    <div className="inline-flex justify-evenly w-full">
+    <div className="inline-flex justify-around w-full">
       <div className="flex flex-col justify-center items-center gap-2">
         <div className="bg-[#009FE3] rounded-md w-4 h-4"> </div>
         <span>2-4%</span>
