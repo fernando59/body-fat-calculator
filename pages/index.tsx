@@ -1,11 +1,18 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import { useState } from 'react'
+import { Description } from '../components/Description'
 import { FormCalculator } from '../components/FormCalculator'
 import { Header } from '../components/Header'
 import { Range } from '../components/Range'
 import styles from '../styles/Home.module.css'
 
+
+
+
 const Home: NextPage = () => {
+  const [resCalc, setResCalc] = useState<number>(0)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -17,16 +24,11 @@ const Home: NextPage = () => {
       <Header />
       <main className='container mx-auto h-[92vh]  grid md:grid-cols-2  grid-cols-1'>
         <div className='self-center h-[92vh]'>
-
-          <h1 className='text-3xl font-bold pt-16  capitalize text tracking-wide '>Calculadora de Grasa <br />Corporal</h1>
-          <p className='py-4 text-[#ddd]'>El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera <br />
-            sencilla de calcular un aproximado del porcentaje de tejido adiposo en el cuerpo de <br />
-            una persona.</p>
-          <p className='py-4 text-[#ddd]'>Los valores requeridos para la fórmula son los siguientes : </p>
-          <FormCalculator />
+          <Description />
+          <FormCalculator setResCalc={setResCalc} />
         </div>
         <div className='self-center'>
-          <Range/>
+          <Range resCalc={resCalc} />
         </div>
 
       </main>

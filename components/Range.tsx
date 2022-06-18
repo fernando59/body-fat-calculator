@@ -1,9 +1,63 @@
+import { FC, useEffect, useRef, useState } from "react";
 
-export const Range = () => {
+interface Props {
+
+  resCalc: number
+}
+
+export const Range: FC<Props> = ({ resCalc }) => {
+  const [range, setRange] = useState<number>(0)
+  const [step, setStep] = useState(0);
+  const ref = useRef<any>(null);
+  // const ref = useRef(null)  as MutableRefObject<HTMLDivElement>;
+  // const ref = useRef<HTMLHeadingElement>(document.createElement("div"));
+
+  const getRange = (e: any) => {
+    setRange(e.target.value);
+  };
+  useEffect(() => {
+    let res: number = parseFloat(resCalc.toFixed(2))
+    console.log(res)
+    if (res < 0) {
+      setRange(0)
+    } else if (res > 25) {
+      setRange(25)
+
+    }
+    else {
+      setRange(res)
+    }
+    const rangeLinePadding = 16
+    if (ref.current) {
+      const offsetWidth = ref.current.offsetWidth
+      console.log({ offsetWidth })
+      const max  = ref.current.max
+      console.log({max})
+      const calcStep = (ref.current.offsetWidth - rangeLinePadding) / ref.current.max;
+      console.log({ calcStep })
+      setStep(calcStep);
+    }
+  }, [setRange, resCalc]);
+
   return <>
 
-    <h3 className="text-2xl">Tu resultado : 28.8%</h3>
-    <input type="range" />
+    <h3 className="text-2xl">Tu resultado : {range} %</h3>
+    <div>
+      <label
+        htmlFor="range"
+        className="transition  ease-in-out delay-150 duration-300"
+        style={{
+          display: "inline-block",
+          transform: `translateX(${range * step}px)`,
+        }}>
+        <span className="text-2xl label-range select-none "> {range} %</span>
+      </label>
+      <input
+        disabled={true}
+        onChange={getRange}
+        className='cursor-pointer'
+        ref={ref} type="range" min={0} max={25} value={range} />
+    </div>
 
     <div className="inline-flex justify-evenly w-full">
       <div className="flex flex-col justify-center items-center gap-2">
