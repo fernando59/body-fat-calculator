@@ -22,13 +22,13 @@ const Home: NextPage = () => {
 
       <Header />
       <main className='container px-5 mx-auto min-h-[92vh]  grid md:grid-cols-2  grid-cols-1'>
-        <div className='self-center min-h-[92vh]'>
+        <section className='self-center min-h-[92vh]'>
           <Description />
           <FormCalculator setResCalc={setResCalc} />
-        </div>
-        <div className='self-center'>
+        </section>
+        <section className='self-center'>
           <Range resCalc={resCalc} />
-        </div>
+        </section>
 
       </main>
 

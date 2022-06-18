@@ -1,5 +1,5 @@
 import { FC, useEffect, useRef, useState } from "react";
-
+import { StepPoint } from './StepPoint';
 interface Props {
   resCalc: number
 }
@@ -8,8 +8,6 @@ export const Range: FC<Props> = ({ resCalc }) => {
   const [range, setRange] = useState<number>(0)
   const [step, setStep] = useState(0);
   const ref = useRef<any>(null);
-  // const ref = useRef(null)  as MutableRefObject<HTMLDivElement>;
-  // const ref = useRef<HTMLHeadingElement>(document.createElement("div"));
 
   const getRange = (e: any) => {
     setRange(e.target.value);
@@ -28,8 +26,8 @@ export const Range: FC<Props> = ({ resCalc }) => {
     if (ref.current) {
       const offsetWidth = ref.current.offsetWidth
       console.log({ offsetWidth })
-      const max  = ref.current.max
-      console.log({max})
+      const max = ref.current.max
+      console.log({ max })
       const calcStep = (ref.current.offsetWidth - rangeLinePadding) / ref.current.max;
       console.log({ calcStep })
       setStep(calcStep);
@@ -38,10 +36,11 @@ export const Range: FC<Props> = ({ resCalc }) => {
 
   return <>
 
-    <h3 className="text-2xl">Tu resultado : {range} %</h3>
+    <h3 className="text-2xl lg:text-3xl font-bold py-14 ">Tu resultado : <span className="transition ease-in-out delay-150 duration-300">{range} %</span> </h3>
+
+    {/* RANGE */}
     <div>
       <label
-        htmlFor="range"
         className="transition  ease-in-out delay-150 duration-300"
         style={{
           display: "inline-block",
@@ -56,32 +55,16 @@ export const Range: FC<Props> = ({ resCalc }) => {
         ref={ref} type="range" min={0} max={25} value={range} />
     </div>
 
-    <div className="inline-flex justify-around w-full">
-      <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-[#009FE3] rounded-md w-4 h-4"> </div>
-        <span>2-4%</span>
-        <span>Esencial</span>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-[#009C3D] rounded-md w-4 h-4"> </div>
-        <span>6-13%</span>
-        <span>Deportista</span>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-[#98C21D] rounded-md w-4 h-4"> </div>
-        <span>14-17%</span>
-        <span>Fitness</span>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-[#FECA00] rounded-md w-4 h-4"> </div>
-        <span>18-25%</span>
-        <span>Aceptable</span>
-      </div>
-      <div className="flex flex-col justify-center items-center gap-2">
-        <div className="bg-red-400 rounded-md w-4 h-4"> </div>
-        <span>25% +</span>
-        <span>Obeso</span>
-      </div>
+    {/* POINTS */}
+
+    <div className="inline-flex justify-around w-full pb-10">
+      <StepPoint color="bg-[#009FE3]" title="Esencial" range="2-4%" />
+      <StepPoint color="bg-[#009C3D]" title="Deportista" range="6-13%" />
+      <StepPoint color="bg-[#98C21D]" title="Fitness" range="14-17%" />
+      <StepPoint color="bg-[#FECA00]" title="Aceptable" range="18-25%" />
+      <StepPoint color="bg-red-400" title="Obeso" range="25% +" />
+
+
     </div>
   </>
 }

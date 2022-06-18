@@ -1,55 +1,69 @@
 import { FC } from "react";
-import { useForm } from "react-hook-form";
-import { BFP } from "../interfaces/BFP";
-
+import { Controller, useForm } from "react-hook-form";
+import NumberFormat from 'react-number-format';
+import { useCalculator } from "../hooks/useCalculator";
+import { IBFP, IBFPForm } from "../interfaces/BFP";
 interface Props {
     setResCalc: (resCalc: number) => void
 }
 export const FormCalculator: FC<Props> = ({ setResCalc }) => {
 
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm<BFP>({
+    const {calculateForMale,calculateFormFemale} = useCalculator();
+    
+    const { register, handleSubmit, watch, formState: { errors }, reset, control } = useForm<IBFPForm>({
         defaultValues: {
-            gender: 'm'
+            gender: 'm',
+            height:'' ,
+            hip:'',
+            neck:'',
+            waist:'',
+            weigth:''
         }
     });
-    const onHandleSubmit = (data: BFP) => {
-        const { gender } = data
+    const gender = watch("gender");
+
+    
+    const onHandleSubmit = (data: IBFPForm) => {
+        const { gender, height, hip, neck, waist, weigth } = data
         let res: number = 0
+
+        // Transform values form to interface
+        const dataCalcultator: IBFP = {
+            height: parseFloat(height),
+            hip: parseFloat(hip),
+            neck: parseFloat(neck),
+            waist: parseFloat(waist),
+            weigth: parseFloat(weigth),
+
+        }
         if (gender === 'f') {
-            res = calculateFormFemale(data)
+            res = calculateFormFemale(dataCalcultator)
             setResCalc(res)
         }
         else {
-            res = calculateForMale(data)
+            res = calculateForMale(dataCalcultator)
             setResCalc(res)
         }
     }
 
-    const indiceAntropometrico =(data:BFP)=>{
-        const { weigth,waist, neck, height } = data
-        return (height/Math.pow(weigth*waist*neck,1/3))*10 ;
-
-    }
-
-    const calculateForMale = (data: BFP) => {
-        const { weigth,waist, neck, height } = data
-        // first try
-        // return (495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height))) - 450
-        return indiceAntropometrico(data)*-3.30+90.41
-    }
-    const calculateFormFemale = (data: BFP) => {
-        const { waist, neck, height, hip } = data
-        // return (495 / (1.29579 - 0.35004 * Math.log10(hip + waist - neck) + 0.22100 * Math.log10(height))) - 450
-        return indiceAntropometrico(data)*-3.06+100.67
-    }
+   
     const handleReset = () => {
-        reset()
+        reset({
+            height: '',
+            weigth: '',
+            hip: '',
+            gender: 'm',
+            neck: '',
+            waist: ''
+        })
         setResCalc(0)
     }
-    const gender = watch("gender");
+
+
+    
     return <>
 
-        <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete='off' className="w-[85%] ">
+        <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete='off' className=" w-full md:w-[85%] ">
 
             <div className="flex flex-col">
 
@@ -69,25 +83,78 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
 
             <label className="flex flex-col">
                 <span className="font-bold">Altura (cm)</span>
-                <input {...register("height", { required: true, min: 0 })} />
+                <Controller
+                    control={control}
+                    name="height"
+                    rules={{ required: true, min: 0, max: 400}}
+                    render={({ field }
+                    ) => (
+                        <NumberFormat
+                            decimalSeparator="."
+                            {...field}
+                            displayType="input"
+                            type="text"
+                            allowNegative={false} />
+                    )}
+                />
                 {errors.height?.type === "required" && <span className="text-red-500">El campo altura   es requerido</span>}
                 {errors.height?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
+                {errors.height?.type === "max" && <span className="text-red-500">El valor máximo es de 400 cm </span>}
             </label>
             <label className="flex flex-col">
                 <span className="font-bold">Peso (kg)</span>
-                <input  {...register("weigth", { required: true, min: 0 })} />
+                <Controller
+                    control={control}
+                    name="weigth"
+                    rules={{ required: true, min: 0 }}
+                    render={({ field }
+                    ) => (
+                        <NumberFormat
+                            decimalSeparator="."
+                            {...field}
+                            displayType="input"
+                            type="text"
+                            allowNegative={false} />
+                    )}
+                />
                 {errors.weigth?.type === "required" && <span className="text-red-500">El campo peso  es requerido</span>}
                 {errors.weigth?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
             </label>
             <label className="flex flex-col">
                 <span className="font-bold">Cintura (cm)</span>
-                <input {...register("waist", { required: true, min: 0 })} />
+                <Controller
+                    control={control}
+                    name="waist"
+                    rules={{ required: true, min: 0 }}
+                    render={({ field }
+                    ) => (
+                        <NumberFormat
+                            decimalSeparator="."
+                            {...field}
+                            displayType="input"
+                            type="text"
+                            allowNegative={false} />
+                    )}
+                />
                 {errors.waist?.type === "required" && <span className="text-red-500">El campo cintura  es requerido</span>}
                 {errors.waist?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
             </label>
             <label className="flex flex-col">
                 <span className="font-bold">Cuello (cm)</span>
-                <input {...register("neck", { required: true, min: 0 })} />
+                <Controller
+                    control={control}
+                    name="neck"
+                    rules={{ required: true, min: 0 }}
+                    render={({ field }
+                    ) => (
+                        <NumberFormat
+                            decimalSeparator="."
+                            {...field}
+                            displayType="input"
+                            type="text"
+                            allowNegative={false} />
+                    )}
+                />
                 {errors.neck?.type === "required" && <span className="text-red-500">El campo cuello es requerido</span>}
                 {errors.neck?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
             </label>
@@ -96,7 +163,20 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
 
                 <label className="flex flex-col">
                     <span className="font-bold">Cadera (cm)</span>
-                    <input {...register("hip", { required: true, min: 0 })} />
+                    <Controller
+                    control={control}
+                    name="hip"
+                    rules={{ required: true, min: 0 }}
+                    render={({ field }
+                    ) => (
+                        <NumberFormat
+                            decimalSeparator="."
+                            {...field}
+                            displayType="input"
+                            type="text"
+                            allowNegative={false} />
+                    )}
+                />
                     {errors.hip?.type === "required" && <span className="text-red-500">El campo cadera es requerido</span>}
                     {errors.hip?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
                 </label>
