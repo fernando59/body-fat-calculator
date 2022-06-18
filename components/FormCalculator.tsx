@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import NumberFormat from 'react-number-format';
+import { toast, ToastContainer } from 'react-toastify';
 import { useCalculator } from "../hooks/useCalculator";
 import { IBFP, IBFPForm } from "../interfaces/BFP";
 interface Props {
@@ -8,21 +9,21 @@ interface Props {
 }
 export const FormCalculator: FC<Props> = ({ setResCalc }) => {
 
-    const {calculateForMale,calculateFormFemale} = useCalculator();
-    
+    const { calculateForMale, calculateFormFemale } = useCalculator();
+
     const { register, handleSubmit, watch, formState: { errors }, reset, control } = useForm<IBFPForm>({
         defaultValues: {
             gender: 'm',
-            height:'' ,
-            hip:'',
-            neck:'',
-            waist:'',
-            weigth:''
+            height: '',
+            hip: '',
+            neck: '',
+            waist: '',
+            weigth: ''
         }
     });
     const gender = watch("gender");
 
-    
+
     const onHandleSubmit = (data: IBFPForm) => {
         const { gender, height, hip, neck, waist, weigth } = data
         let res: number = 0
@@ -38,15 +39,39 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
         }
         if (gender === 'f') {
             res = calculateFormFemale(dataCalcultator)
+            if (res < 0) {
+                toast.error('Los valores generan un resultado incorrecto', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme:'dark'
+                });
+            }
             setResCalc(res)
         }
         else {
             res = calculateForMale(dataCalcultator)
+            if (res < 0) {
+                toast.error('Los valores generan un resultado incorrecto', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme:'dark'
+                });
+            }
             setResCalc(res)
         }
     }
 
-   
+
     const handleReset = () => {
         reset({
             height: '',
@@ -60,7 +85,7 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
     }
 
 
-    
+
     return <>
 
         <form onSubmit={handleSubmit(onHandleSubmit)} autoComplete='off' className=" w-full md:w-[85%] ">
@@ -86,7 +111,7 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
                 <Controller
                     control={control}
                     name="height"
-                    rules={{ required: true, min: 0, max: 400}}
+                    rules={{ required: true, min: 0, max: 400 }}
                     render={({ field }
                     ) => (
                         <NumberFormat
@@ -164,25 +189,26 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
                 <label className="flex flex-col">
                     <span className="font-bold">Cadera (cm)</span>
                     <Controller
-                    control={control}
-                    name="hip"
-                    rules={{ required: true, min: 0 }}
-                    render={({ field }
-                    ) => (
-                        <NumberFormat
-                            decimalSeparator="."
-                            {...field}
-                            displayType="input"
-                            type="text"
-                            allowNegative={false} />
-                    )}
-                />
+                        control={control}
+                        name="hip"
+                        rules={{ required: true, min: 0 }}
+                        render={({ field }
+                        ) => (
+                            <NumberFormat
+                                decimalSeparator="."
+                                {...field}
+                                displayType="input"
+                                type="text"
+                                allowNegative={false} />
+                        )}
+                    />
                     {errors.hip?.type === "required" && <span className="text-red-500">El campo cadera es requerido</span>}
                     {errors.hip?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
                 </label>
             }
             <button type="submit" className="bg-[#8667F0] text-white px-8 mt-5 py-2 rounded-xl ">Calcular</button>
             <button type="button" onClick={handleReset} className=" text-white px-8 mt-5 py-2 rounded-xl ">Limpiar</button>
+            <ToastContainer />
         </form>
     </>
 }

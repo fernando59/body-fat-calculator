@@ -1,4 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
+
+
 import { StepPoint } from './StepPoint';
 interface Props {
   resCalc: number
@@ -15,6 +17,7 @@ export const Range: FC<Props> = ({ resCalc }) => {
   useEffect(() => {
     let res: number = parseFloat(resCalc.toFixed(2))
     if (res < 0) {
+   
       setRange(0)
     } else if (res > 25) {
       setRange(25)
@@ -66,5 +69,7 @@ export const Range: FC<Props> = ({ resCalc }) => {
 
 
     </div>
+
+        
   </>
 }
