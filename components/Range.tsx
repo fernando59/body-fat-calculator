@@ -57,7 +57,7 @@ export const Range: FC<Props> = ({ resCalc }) => {
 
     {/* POINTS */}
 
-    <div className="inline-flex justify-around w-full pb-10">
+    <div className="inline-flex pt-5 justify-around w-full pb-10">
       <StepPoint color="bg-[#009FE3]" title="Esencial" range="2-4%" />
       <StepPoint color="bg-[#009C3D]" title="Deportista" range="6-13%" />
       <StepPoint color="bg-[#98C21D]" title="Fitness" range="14-17%" />
