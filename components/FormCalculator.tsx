@@ -54,6 +54,7 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
         else
             res = calculateForMale(dataCalcultator)
 
+        console.log(res)
         if (res < 0) {
             generateToast()
         }

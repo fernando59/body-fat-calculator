@@ -28,11 +28,11 @@ export const Range: FC<Props> = ({ resCalc }) => {
     const rangeLinePadding = 16
     if (ref.current) {
       const offsetWidth = ref.current.offsetWidth
-      console.log({ offsetWidth })
+      // console.log({ offsetWidth })
       const max = ref.current.max
-      console.log({ max })
+      // console.log({ max })
       const calcStep = (ref.current.offsetWidth - rangeLinePadding) / ref.current.max;
-      console.log({ calcStep })
+      // console.log({ calcStep })
       setStep(calcStep);
     }
   }, [setRange, resCalc]);

@@ -13,13 +13,17 @@ export const useCalculator = () => {
 
     const calculateForMale = (data: IBFP) => {
         const { weigth, waist, neck, height } = data
-        // return (495 / (1.0324 - 0.19077 * Math.log10(waist - neck) + 0.15456 * Math.log10(height))) - 450
-        return anthropometricIndex(data) * -3.30 + 90.41
+        let coefficientHeight = Math.log10(height)
+        let coefficientWaistNeck = Math.log10(waist-neck)
+        let dominator = (1.0324-0.19077*coefficientWaistNeck+0.15456*coefficientHeight)
+        return (495/dominator-450)
     }
     const calculateFormFemale = (data: IBFP) => {
-        const { waist, neck, height, hip } = data
-        // return (495 / (1.29579 - 0.35004 * Math.log10(hip + waist - neck) + 0.22100 * Math.log10(height))) - 450
-        return anthropometricIndex(data) * -3.06 + 100.67
+        const { waist, neck, height, hip,weigth } = data
+        let coefficientWaistNeck = Math.log10(waist+neck+hip)
+        let coefficientHeight = Math.log10(height)
+        let dominator = (1.29579-0.35004*coefficientWaistNeck+0.22100*coefficientHeight)
+        return (495/dominator-450)
     }
 
     return {
