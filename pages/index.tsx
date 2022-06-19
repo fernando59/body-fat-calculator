@@ -14,6 +14,8 @@ const Home: NextPage = () => {
 
   return (
     <>
+    <div className='h-screen scrollbar scrollbar-thumb-slate-800 scrollbar-track-slate-900'>
+
       <Head>
         <title>Health Overview</title>
         <meta name="description" content="El método de la Marina de Estados Unidos (US Navy Method) ofrece una manera sencilla de calcular un aproximado del porcentaje de tejido adiposo en el cuerpo de una persona." />
@@ -32,6 +34,7 @@ const Home: NextPage = () => {
 
       </main>
 
+    </div>
     </>
   )
 }
