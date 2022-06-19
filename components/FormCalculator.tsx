@@ -54,8 +54,7 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
         else
             res = calculateForMale(dataCalcultator)
 
-        console.log(res)
-        if (res < 0) {
+        if (res < 0 ) {
             generateToast()
         }
         setResCalc(res)
@@ -196,8 +195,8 @@ export const FormCalculator: FC<Props> = ({ setResCalc }) => {
                     {errors.hip?.type === "min" && <span className="text-red-500">El valor mínimo es de 0 </span>}
                 </label>
             }
-            <button type="submit" className="bg-[#8667F0] text-white px-8 mt-5 py-2 rounded-xl ">Calcular</button>
-            <button type="button" onClick={handleReset} className=" text-white px-8 mt-5 py-2 rounded-xl ">Limpiar</button>
+            <button type="submit" className="bg-[#8667F0] text-white px-8 mt-5 py-2 rounded-xl font-semibold ">Calcular</button>
+            <button type="button" onClick={handleReset} className=" text-white px-8 mt-5 py-2 rounded-xl font-semibold ">Limpiar</button>
             <ToastContainer />
         </form>
     </>

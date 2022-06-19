@@ -7,55 +7,65 @@ interface Props {
 }
 
 export const Range: FC<Props> = ({ resCalc }) => {
-  const [range, setRange] = useState<number>(0)
-  const [step, setStep] = useState(0);
+  const [state, setState] = useState({
+    range: 0,
+    value: 0
+  })
   const ref = useRef<any>(null);
 
   const getRange = (e: any) => {
-    setRange(e.target.value);
+    setState({ ...state, range: e.target.value })
   };
   useEffect(() => {
     let res: number = parseFloat(resCalc.toFixed(2))
     if (res < 0) {
-   
-      setRange(0)
+      res = 0
     } else if (res > 25) {
-      setRange(25)
+      res = 25
     }
-    else {
-      setRange(res)
+    else if (isNaN(res)) {
+      res = 0
     }
-    const rangeLinePadding = 16
+
+
     if (ref.current) {
-      const offsetWidth = ref.current.offsetWidth
-      // console.log({ offsetWidth })
       const max = ref.current.max
-      // console.log({ max })
-      const calcStep = (ref.current.offsetWidth - rangeLinePadding) / ref.current.max;
-      // console.log({ calcStep })
-      setStep(calcStep);
+      const min = ref.current.min
+      let newValue = 0
+      if (res < 1) {
+        newValue = ((res - min) * 100 / max)
+      } else {
+        newValue = ((res - min) * 100 / max) - 10
+
+      }
+      setState({ ...state, value: newValue, range: res })
+
     }
-  }, [setRange, resCalc]);
+  }, [setState, resCalc, ref]);
 
   return <>
 
-    <h3 className="text-2xl lg:text-3xl font-bold py-14 ">Tu resultado : <span className="transition ease-in-out delay-150 duration-300">{range} %</span> </h3>
+    <h3 className="text-2xl lg:text-3xl font-bold py-14 ">Tu resultado : <span className="transition ease-in-out delay-150 duration-300">{state.range} %</span> </h3>
 
     {/* RANGE */}
-    <div>
-      <label
-        className="transition  ease-in-out delay-150 duration-300"
-        style={{
-          display: "inline-block",
-          transform: `translateX(${range * step}px)`,
-        }}>
-        <span className="text-2xl label-range select-none "> {range} %</span>
-      </label>
+    <div className="">
+      <div className="relative w-full ">
+
+        <label
+          className="transition-all  ease-in-out delay-150 duration-300 absolute"
+          style={{
+            display: "inline-block",
+            top: '-45px',
+            left: `${state.value}%`,
+          }}>
+          <span className="text-lg md:text-2xl label-range select-none "> {state.range} %</span>
+        </label>
+      </div>
       <input
         disabled={true}
         onChange={getRange}
         className='cursor-pointer'
-        ref={ref} type="range" min={0} max={25} value={range} />
+        ref={ref} type="range" min={0} max={25} value={state.range} />
     </div>
 
     {/* POINTS */}
@@ -70,6 +80,6 @@ export const Range: FC<Props> = ({ resCalc }) => {
 
     </div>
 
-        
+
   </>
 }
